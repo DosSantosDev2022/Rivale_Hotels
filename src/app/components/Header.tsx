@@ -12,7 +12,8 @@ const Header = () =>{
     <div className="container mx-auto p-5 flex justify-between items-center">
       <Image width = {183} height = {32} src ="/logo.png" alt ="logo rivale hotels"/>
       {status === "unauthenticated" && (
-        <button className="text-color01 text-sm font-semibold" onClick={handleLoginClick}>Login</button>
+        <button className="text-color01 text-sm font-semibold"
+          onClick={handleLoginClick}>Login</button>
       )}
 
       {status === "authenticated" && data.user && (
