@@ -30,11 +30,6 @@ const QuickSearch = () => {
               <p className="text-color03 text-sm">Fazenda</p>
             </div>
           </div>
-          <div className="flex items-center p-5">
-            <div className="w-full h-[1px] bg-color03"></div>
-              <h2 className=" px-5 text-base font-medium text-color03 whitespace-nowrap">Destinos recomendados</h2>
-            <div className="w-full h-[1px] bg-color03"></div>
-          </div>
       </div>
     )
 }
