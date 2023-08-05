@@ -8,7 +8,9 @@ import React from "react";
 import { Controller, useForm } from "react-hook-form";
 
 interface TripReservationProps{
-  trip: Trip
+  tripStarteDate: Date;
+  tripEndDate: Date;
+  maxGuest: number;
 }
 interface TripReservationForm{
   guests: number;
@@ -16,11 +18,13 @@ interface TripReservationForm{
   endDate: Date | null
 }
 
-const TripReservation = ({trip} : TripReservationProps) => {
-  const  {register, handleSubmit, formState:{errors},control,} = useForm <TripReservationForm>();
+const TripReservation = ({maxGuest,tripStarteDate,tripEndDate} : TripReservationProps) => {
+  const  {register, handleSubmit, formState:{errors},control,watch} = useForm <TripReservationForm>();
   const onsubmit = (data:any) =>{
 
   }
+
+  const startDate = watch("starteDate")
   return ( 
         <div className="flex flex-col px-5 ">
           <div className="flex gap-3">
@@ -33,7 +37,7 @@ const TripReservation = ({trip} : TripReservationProps) => {
                 },  
               }}
               control={control}
-              render={({field}) => <DatePicker error={!!errors?.starteDate} errorMessage={errors?.starteDate?.message} placeholderText="Data inicio" onChange={field.onChange} selected={field.value} className="w-full" /> }
+              render={({field}) => <DatePicker error={!!errors?.starteDate} errorMessage={errors?.starteDate?.message} placeholderText="Data inicio" onChange={field.onChange} selected={field.value} className="w-full" minDate={tripStarteDate} /> }
               />
             
             <Controller
@@ -45,7 +49,7 @@ const TripReservation = ({trip} : TripReservationProps) => {
                 },  
               }}
               control={control}
-              render={({field}) => <DatePicker error={!!errors?.endDate} errorMessage={errors?.endDate?.message} placeholderText="Data final" onChange={field.onChange} selected={field.value} className="w-full" /> }
+              render={({field}) => <DatePicker error={!!errors?.endDate} errorMessage={errors?.endDate?.message} placeholderText="Data final" onChange={field.onChange} selected={field.value} className="w-full" maxDate={tripEndDate} minDate={startDate ?? tripStarteDate} /> }
               />
           </div>
 
@@ -54,7 +58,7 @@ const TripReservation = ({trip} : TripReservationProps) => {
               value:true,
               message:'Número de hóspedes é obrigatório!',
             }
-          })} placeholder={`Número de hóspedes(max: ${trip.maxGuests})`} className="w-full mt-4"
+          })} placeholder={`Número de hóspedes(max: ${maxGuest})`} className="w-full mt-4"
           error = {!!errors?.guests} errorMessage ={errors?.guests?.message} />
 
           <div className="flex justify-between mt-3">
