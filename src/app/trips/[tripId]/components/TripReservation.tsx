@@ -3,12 +3,13 @@
 import Button from "@/components/Button";
 import DatePicker from "@/components/DatePicker";
 import Input from "@/components/input";
-import { Trip } from "@prisma/client";
 import { differenceInDays } from "date-fns";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
+import { buffer } from "stream/consumers";
 
 interface TripReservationProps{
+  tripId: string;
   tripStarteDate: Date;
   tripEndDate: Date;
   maxGuest: number;
@@ -20,10 +21,17 @@ interface TripReservationForm{
   endDate: Date | null
 }
 
-const TripReservation = ({maxGuest,tripStarteDate,tripEndDate, pricePerDay} : TripReservationProps) => {
+const TripReservation = ({ tripId,maxGuest,tripStarteDate,tripEndDate, pricePerDay} : TripReservationProps) => {
   const  {register, handleSubmit, formState:{errors},control,watch} = useForm <TripReservationForm>();
-  const onsubmit = (data:any) =>{
-
+  const onsubmit = async (data:any) =>{
+      const response = await fetch('http://localhost:3000/api/trips/check',{
+        method: 'POST',
+        body: Buffer.from(JSON.stringify({
+          startDate: data.startDate,
+          endDate: data.endDate,
+          tripId,
+        }))
+      })
   }
 
   const startDate = watch ("starteDate");
@@ -77,7 +85,7 @@ const TripReservation = ({maxGuest,tripStarteDate,tripEndDate, pricePerDay} : Tr
             <Button onClick={() => handleSubmit(onsubmit)()} className="mt-3 w-full">Reservar Agora</Button>
             </div>
         </div>  
-   );
+  );
 }
 
 export default TripReservation;
