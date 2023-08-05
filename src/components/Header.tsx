@@ -24,7 +24,7 @@ const Header = () =>{
             <Image src ="/logo.png" alt ="logo rivale hotels" fill/>
           </div>
         </Link>
-     
+    
       
       {status === "unauthenticated" && (
         <button className="text-color01 text-sm font-semibold"
