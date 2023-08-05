@@ -27,8 +27,7 @@ const TripReservation = ({trip} : TripReservationProps) => {
             <div className="pb-10 border-b border-color03 w-full">
             <Button className="mt-3 w-full">Reservar Agora</Button>
             </div>
-          
-        </div>
+        </div>  
    );
 }
 

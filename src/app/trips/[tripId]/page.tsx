@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import React from "react";
 import TripHeader from "./components/TripHeader"
 import TripReservation from "./components/TripReservation";
+import TripDescription from "./components/TripDescription";
 
 
 const getTripDedails = async (tripId: string) => {
@@ -23,6 +24,7 @@ const TripDetails = async ({params}:{params: {tripId:string}}) => {
       <TripHeader trip={trip}/>
       {/* reservas  */}
       <TripReservation trip={trip} />
+      <TripDescription description={trip.description} />
     </div>
   )
 }
