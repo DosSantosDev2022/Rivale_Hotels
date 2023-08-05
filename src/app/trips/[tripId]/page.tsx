@@ -4,6 +4,7 @@ import TripHeader from "./components/TripHeader"
 import TripReservation from "./components/TripReservation";
 import TripDescription from "./components/TripDescription";
 import TripHighLights from "./components/TripHighlights";
+import TripLocations from "./components/TripLocation";
 
 
 const getTripDedails = async (tripId: string) => {
@@ -27,6 +28,7 @@ const TripDetails = async ({params}:{params: {tripId:string}}) => {
       <TripReservation trip={trip} />
       <TripDescription description={trip.description} />
       <TripHighLights highlights={trip.highlights}/>
+      <TripLocations location={trip.location} />
     </div>
   )
 }
