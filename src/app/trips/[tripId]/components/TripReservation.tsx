@@ -6,7 +6,7 @@ import Input from "@/components/input";
 import { differenceInDays } from "date-fns";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { buffer } from "stream/consumers";
+
 
 interface TripReservationProps{
   tripId: string;
@@ -23,15 +23,21 @@ interface TripReservationForm{
 
 const TripReservation = ({ tripId,maxGuest,tripStarteDate,tripEndDate, pricePerDay} : TripReservationProps) => {
   const  {register, handleSubmit, formState:{errors},control,watch} = useForm <TripReservationForm>();
-  const onsubmit = async (data:any) =>{
-      const response = await fetch('http://localhost:3000/api/trips/check',{
-        method: 'POST',
-        body: Buffer.from(JSON.stringify({
-          startDate: data.startDate,
+
+
+  const onSubmit = async (data: TripReservationForm) => {
+    const response = await fetch("/api/trips/check", {
+      method: "POST",
+      body: Buffer.from(
+        JSON.stringify({
+          startDate: data.starteDate,
           endDate: data.endDate,
           tripId,
-        }))
-      })
+        })
+      ),
+    });
+    const res = await response.json();
+    console.log(res);
   }
 
   const startDate = watch ("starteDate");
@@ -82,10 +88,11 @@ const TripReservation = ({ tripId,maxGuest,tripStarteDate,tripEndDate, pricePerD
           </div> 
 
             <div className="pb-10 border-b border-color03 w-full">
-            <Button onClick={() => handleSubmit(onsubmit)()} className="mt-3 w-full">Reservar Agora</Button>
+            <Button onClick={() => handleSubmit(onSubmit)()} className="mt-3 w-full">Reservar Agora</Button>
             </div>
         </div>  
   );
-}
+};
 
-export default TripReservation;
+
+export default TripReservation
