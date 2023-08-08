@@ -21,7 +21,7 @@ const Header = () =>{
     <div className="container mx-auto p-5 py-0 h-[93px] flex justify-between items-center">
         <Link href="/">
           <div className="relative h-[32px] w-[182px]">
-            <Image src ="/logo.png" alt ="logo rivale hotels" fill/>
+            <Image src ="/logo.svg" alt ="logo rivale hotels" fill/>
           </div>
         </Link>
     
