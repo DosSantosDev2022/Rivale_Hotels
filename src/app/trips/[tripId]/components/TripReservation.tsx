@@ -28,7 +28,8 @@ const TripReservation = ({ tripId,maxGuest,tripStartDate,tripEndDate, pricePerDa
     formState:{errors},
     control,
     watch,
-    setError} = useForm <TripReservationForm>();
+    setError,
+  } = useForm <TripReservationForm>();
 
   const router = useRouter()
 
@@ -46,31 +47,33 @@ const TripReservation = ({ tripId,maxGuest,tripStartDate,tripEndDate, pricePerDa
     });
     const res = await response.json();
     
-    if(res?.error?.code === 'TRIP_ALREADY_RESERVED'){
-      setError("startDate",{
-        type:"manual",
-        message:"Esta data já está reservada"
-      }); 
-      return setError("endDate",{
-        type:"manual",
-        message:"Esta data já está reservada"
+    if (res?.error?.code === "TRIP_ALREADY_RESERVED") {
+      setError("startDate", {
+        type: "manual",
+        message: "Esta data já está reservada.",
+      });
+
+      return setError("endDate", {
+        type: "manual",
+        message: "Esta data já está reservada.",
       });
     }
 
-    if(res?.error?.code === 'INVALID_START_DATE'){
-      setError("startDate",{
-        type:"manual",
-        message:"Data inválida"
-      }); 
-    }
-    if(res?.error?.code === 'INVALID_END_DATE'){
-      return setError("endDate",{
-        type:"manual",
-        message:"Data inválida"
-      }); 
+    if (res?.error?.code === "INVALID_START_DATE") {
+      return setError("startDate", {
+        type: "manual",
+        message: "Data inválida.",
+      });
     }
 
-    router.push(`/trips/${tripId}/confirmation?startDate=${data.startDate?.toISOString()}&${data.endDate?.toISOString()}&${data.guests}`)
+    if (res?.error?.code === "INVALID_END_DATE") {
+      return setError("endDate", {
+        type: "manual",
+        message: "Data inválida.",
+      });
+    }
+
+    router.push(`/trips/${tripId}/confirmation?startDate=${data.startDate?.toISOString()}&endDate=${data.endDate?.toISOString()}&guests=${data.guests}`)
   };
   const startDate = watch ("startDate");
   const endDate = watch ("endDate");
@@ -126,7 +129,9 @@ const TripReservation = ({ tripId,maxGuest,tripStartDate,tripEndDate, pricePerDa
           </div> 
 
             <div className="pb-10 border-b border-color03 w-full">
-            <Button onClick={() => handleSubmit(onSubmit)()} className="mt-3 w-full">Reservar Agora</Button>
+              <Button onClick={() => handleSubmit(onSubmit)()} className="mt-3 w-full">
+                Reservar Agora
+              </Button>
             </div>
         </div>  
   );
