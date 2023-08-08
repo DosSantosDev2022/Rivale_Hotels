@@ -4,25 +4,33 @@ import Button from "@/components/Button";
 import DatePicker from "@/components/DatePicker";
 import Input from "@/components/input";
 import { differenceInDays } from "date-fns";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 
 
 interface TripReservationProps{
   tripId: string;
-  tripStarteDate: Date;
+  tripStartDate: Date;
   tripEndDate: Date;
   maxGuest: number;
   pricePerDay: number;
 }
 interface TripReservationForm{
   guests: number;
-  starteDate: Date | null
+  startDate: Date | null
   endDate: Date | null
 }
 
-const TripReservation = ({ tripId,maxGuest,tripStarteDate,tripEndDate, pricePerDay} : TripReservationProps) => {
-  const  {register, handleSubmit, formState:{errors},control,watch,setError} = useForm <TripReservationForm>();
+const TripReservation = ({ tripId,maxGuest,tripStartDate,tripEndDate, pricePerDay} : TripReservationProps) => {
+  const {register, 
+    handleSubmit, 
+    formState:{errors},
+    control,
+    watch,
+    setError} = useForm <TripReservationForm>();
+
+  const router = useRouter()
 
 
   const onSubmit = async (data: TripReservationForm) => {
@@ -30,7 +38,7 @@ const TripReservation = ({ tripId,maxGuest,tripStarteDate,tripEndDate, pricePerD
       method: "POST",
       body: Buffer.from(
         JSON.stringify({
-          startDate: data.starteDate,
+          startDate: data.startDate,
           endDate: data.endDate,
           tripId,
         })
@@ -38,8 +46,8 @@ const TripReservation = ({ tripId,maxGuest,tripStarteDate,tripEndDate, pricePerD
     });
     const res = await response.json();
     
-    if(res.error.code === 'TRIP_ALREADY_RESERVED'){
-      setError("starteDate",{
+    if(res?.error?.code === 'TRIP_ALREADY_RESERVED'){
+      setError("startDate",{
         type:"manual",
         message:"Esta data já está reservada"
       }); 
@@ -49,30 +57,30 @@ const TripReservation = ({ tripId,maxGuest,tripStarteDate,tripEndDate, pricePerD
       });
     }
 
-    if(res.error.code === 'INVALID_START_DATE'){
-      setError("starteDate",{
+    if(res?.error?.code === 'INVALID_START_DATE'){
+      setError("startDate",{
         type:"manual",
         message:"Data inválida"
       }); 
     }
-    if(res.error.code === 'INVALID_END_DATE'){
+    if(res?.error?.code === 'INVALID_END_DATE'){
       return setError("endDate",{
         type:"manual",
         message:"Data inválida"
       }); 
     }
-  
+
+    router.push(`/trips/${tripId}/confirmation?startDate=${data.startDate?.toISOString()}&${data.endDate?.toISOString()}&${data.guests}`)
   };
-
-  
-
-  const startDate = watch ("starteDate");
+  const startDate = watch ("startDate");
   const endDate = watch ("endDate");
+
+
   return ( 
         <div className="flex flex-col px-5 ">
           <div className="flex gap-3">
             <Controller
-              name="starteDate"
+              name="startDate"
               rules={{
                 required:{
                   value:true,
@@ -80,7 +88,7 @@ const TripReservation = ({ tripId,maxGuest,tripStarteDate,tripEndDate, pricePerD
                 },  
               }}
               control={control}
-              render={({field}) => <DatePicker error={!!errors?.starteDate} errorMessage={errors?.starteDate?.message} placeholderText="Data inicio" onChange={field.onChange} selected={field.value} className="w-full" minDate={tripStarteDate} /> }
+              render={({field}) => <DatePicker error={!!errors?.startDate} errorMessage={errors?.startDate?.message} placeholderText="Data inicio" onChange={field.onChange} selected={field.value} className="w-full" minDate={tripStartDate} /> }
               />
             
             <Controller
@@ -92,7 +100,7 @@ const TripReservation = ({ tripId,maxGuest,tripStarteDate,tripEndDate, pricePerD
                 },  
               }}
               control={control}
-              render={({field}) => <DatePicker error={!!errors?.endDate} errorMessage={errors?.endDate?.message} placeholderText="Data final" onChange={field.onChange} selected={field.value} className="w-full" maxDate={tripEndDate} minDate={startDate ?? tripStarteDate} /> }
+              render={({field}) => <DatePicker error={!!errors?.endDate} errorMessage={errors?.endDate?.message} placeholderText="Data final" onChange={field.onChange} selected={field.value} className="w-full" maxDate={tripEndDate} minDate={startDate ?? tripStartDate} /> }
               />
           </div>
 

@@ -25,7 +25,7 @@ const TripDetails = async ({params}:{params: {tripId:string}}) => {
     <div className="container mx-auto">
       <TripHeader trip={trip}/>
       {/* reservas  */}
-      <TripReservation tripId={trip.id} pricePerDay={trip.pricePerDay as any} maxGuest={trip.maxGuests} tripStarteDate={trip.startDate} tripEndDate={trip.endDate} />
+      <TripReservation tripId={trip.id} pricePerDay={trip.pricePerDay as any} maxGuest={trip.maxGuests} tripStartDate={trip.startDate} tripEndDate={trip.endDate} />
       <TripDescription description={trip.description} />
       <TripHighLights highlights={trip.highlights}/>
       <TripLocations locationDescription={trip.locationDescription} location={trip.location} />
