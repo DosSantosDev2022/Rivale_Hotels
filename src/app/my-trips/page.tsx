@@ -21,9 +21,9 @@ const MyTrips = () => {
   const router = useRouter();
 
   const fetchReservations = async () => {
-    const response = await fetch(`http:localhost:3000/api/user/${(data?.user as any)?.id}/reservation`);
-
-    const json = await response.json();
+    const response = await fetch(`http://localhost:3000/api/user/${(data?.user as any)?.id}/reservations`);
+    
+    const json = await response.json(); 
 
     setReservations(json);
   };
@@ -34,8 +34,7 @@ const MyTrips = () => {
     }
 
     fetchReservations();
-  }, [status]);
-
+  }, [status, data]);
   return (
     <div className="container mx-auto p-5">
       <h1 className="font-semibold text-color02 text-xl lg:mb-5">Minhas Viagens</h1>
