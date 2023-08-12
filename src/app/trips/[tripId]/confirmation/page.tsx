@@ -119,7 +119,7 @@ const TripConfirmation = ({params}: { params:{tripId:string}}) => {
           <h3 className='font-semibold mt-5'>Hóspedes</h3>
           <p>{guests} hóspedes</p>
 
-          <Button className='mt-5'onClick={handleBuyClick}>Finalizar Compra</Button>
+          <Button className='mt-5 'onClick={handleBuyClick}>Finalizar Compra</Button>
         </div>
     </div>
   );
