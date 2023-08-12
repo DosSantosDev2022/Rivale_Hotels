@@ -22,9 +22,9 @@ const MyTrips = () => {
 
   const fetchReservations = async () => {
     const response = await fetch(
-      `http://localhost:3000/api/user/${(data?.user as any)?.id}/reservations`
+      ` http://localhost:3000/api/user/${(data?.user as any)?.id}/reservations`
     );
-      console.log(response)
+
     const json = await response.json();
 
     setReservations(json);
@@ -37,6 +37,7 @@ const MyTrips = () => {
 
     fetchReservations();
   }, [status]);
+
   return (
     <div className="container mx-auto p-5">
       <h1 className="font-semibold text-color02 text-xl lg:mb-5">
