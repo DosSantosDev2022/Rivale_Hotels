@@ -9,7 +9,7 @@ import Logo from "./logo";
 import NavBar from "./NavBar";
 import UserLogin from "./UserLogin";
 
-const Header = () => {
+function Header(): React.JSX.Element {
   const [menuIsOpen, setMenuIsOpen] = React.useState(false);
   const { status, data } = useSession();
   const handleLoginClick = () => signIn();
@@ -25,36 +25,37 @@ const Header = () => {
     <div className="container mx-auto p-5 py-0 h-[93px] flex justify-between items-center">
       <Logo />
       <NavBar />
-      {status === "unauthenticated" && (
-      <UserLogin  />
-      )}
-
+      {status === "unauthenticated" && <UserLogin />}
       {status === "authenticated" && data.user && (
-        <div className="flex items-center p-3 gap-5 border rounded-full border-color03 relative">
+        <div className="flex items-center p-3 gap-5  relative">
           <AiOutlineMenu
             size={20}
             onClick={handleMenuClick}
-            className="cursor-pointer"
+            className="cursor-pointer lg:hidden"
           />
           <Image
             width={28}
             height={28}
             src={data.user.image!}
             alt={data.user.name!}
-            className="rounded-full shadow-md"
+            className="rounded-full shadow-md cursor-pointer"
+            onClick={handleMenuClick}
           />
-
+          <p>{data.user.name}</p>
           {menuIsOpen && (
-            <div className=" z-50 absolute top-12 left-0 w-full h-[100px] bg-white rounded-xl shadow-md flex flex-col justify-center items-center">
+            <div className=" z-50 absolute top-12  w-[110px] h-[100px] bg-white rounded-xl shadow-md flex flex-col justify-center items-center">
               <Link href="/my-trips">
-                <button className="text-color02 text-sm font-semibold mb-2" onClick={() => setMenuIsOpen(false)}>
+                <button
+                  className="text-color02 text-sm font-semibold mb-2 hover:text-color01 ease-in duration-300"
+                  onClick={() => setMenuIsOpen(false)}
+                >
                   Minhas viagens
                 </button>
               </Link>
 
               <div className="w-1/2 bg-color02 h-[1px]"></div>
               <button
-                className="text-color02 text-sm font-semibold"
+                className="text-color02 text-sm font-semibold mt-2 hover:text-color01 ease-in duration-300"
                 onClick={handleLogoutClick}
               >
                 Logout
@@ -65,6 +66,6 @@ const Header = () => {
       )}
     </div>
   );
-};
+}
 
 export default Header;
