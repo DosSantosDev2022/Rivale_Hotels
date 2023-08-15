@@ -21,4 +21,4 @@ function Button({ className, variant = "primary", ...props }: ButtonProps) {
   );
 }
 
-export default Button;
+export default Button;  

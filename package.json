@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@types/react-datepicker": "^4.15.0",
+    "@types/react-modal": "^3.16.0",
     "prisma": "^5.0.0",
     "ts-node": "^10.9.1"
   }
